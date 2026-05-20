@@ -10,6 +10,16 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
+  
+  <!-- Import map for ES modules -->
+  <script type="importmap">
+    {
+      "imports": {
+        "@vercel/speed-insights": "https://cdn.jsdelivr.net/npm/@vercel/speed-insights@2/+esm"
+      }
+    }
+  </script>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -1938,6 +1948,9 @@
       }
     }
   </style>
+  
+  <!-- Vercel Speed Insights -->
+  <script type="module" src="/speed-insights.js"></script>
 </head>
 
 <body>

@@ -2048,6 +2048,17 @@ footer span {
     .cb-input {
         cursor: text;
     }
+
+    .cb-bullet {
+        display: block;
+        margin: 3px 0;
+        color: var(--txt);
+    }
+
+    .cb-msg p strong {
+        color: var(--cyan);
+        font-weight: 600;
+    }
 }
 
 /* ── RESPONSIVE ── */

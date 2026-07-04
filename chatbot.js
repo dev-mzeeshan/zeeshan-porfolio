@@ -36,10 +36,20 @@
     closeBtn.addEventListener('click', closeChat);
 
     /* ── Add Message to UI ── */
+    function parseMarkdown(text) {
+        return text
+            // **bold** → <strong>
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            // • bullet lines → styled div
+            .replace(/^•\s(.+)/gm, '<span class="cb-bullet">• $1</span>')
+            // newlines → <br>
+            .replace(/\n/g, '<br>');
+    }
+
     function addMessage(text, role) {
         const div = document.createElement('div');
         div.className = `cb-msg cb-${role}`;
-        div.innerHTML = `<p>${text}</p>`;
+        div.innerHTML = `<p>${parseMarkdown(text)}</p>`;
         messages.appendChild(div);
         messages.scrollTop = messages.scrollHeight;
         return div;

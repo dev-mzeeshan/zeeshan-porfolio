@@ -96,7 +96,7 @@
             const data = await res.json();
             hideTyping();
 
-            const reply = data.reply || 'Sorry, kuch masla ho gaya. Dobara try karo!';
+            const reply = data.reply || 'Error, Something Went Wrong. Contact Muhammad Zeeshan!';
             addMessage(reply, 'bot');
             history.push({ role: 'assistant', content: reply });
 

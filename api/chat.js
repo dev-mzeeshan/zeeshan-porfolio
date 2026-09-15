@@ -117,7 +117,7 @@ Best contact: dev.mzeeshan@gmail.com or WhatsApp +92 335 373 0974
                 'Authorization': `Bearer ${process.env.GROQ_API_KEY.trim()}`
             },
             body: JSON.stringify({
-                model: 'llama-3.3-70b-versatile',
+                model: 'openai/gpt-oss-20b',
                 messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...messages],
                 max_tokens: 450,
                 temperature: 0.6

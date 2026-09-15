@@ -1,4 +1,3 @@
-// api/chat.js — Vercel Serverless Function
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -9,6 +8,11 @@ export default async function handler(req, res) {
     const { messages } = req.body;
     if (!messages) return res.status(400).json({ error: 'Messages required' });
 
+    // Environment key verification
+    if (!process.env.GROQ_API_KEY) {
+        console.error("GROQ_API_KEY is missing from environment variables.");
+        return res.status(500).json({ error: "Server Configuration Error: API Key Missing" });
+    }
     const SYSTEM_PROMPT = `You are a friendly AI assistant on Muhammad Zeeshan's portfolio website.
 
 ## CORE RULES:
@@ -110,7 +114,7 @@ Best contact: dev.mzeeshan@gmail.com or WhatsApp +92 335 373 0974
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.GROQ_API_KEY}`
+                'Authorization': `Bearer ${process.env.GROQ_API_KEY.trim()}`
             },
             body: JSON.stringify({
                 model: 'llama-3.3-70b-versatile',
@@ -120,11 +124,19 @@ Best contact: dev.mzeeshan@gmail.com or WhatsApp +92 335 373 0974
             })
         });
 
-        if (!groqRes.ok) return res.status(500).json({ error: 'Groq error' });
         const data = await groqRes.json();
+
+        if (!groqRes.ok) {
+            console.error('Groq API Error Details:', data);
+            return res.status(groqRes.status).json({ 
+                error: 'Groq API request failed', 
+                details: data 
+            });
+        }
+
         return res.status(200).json({ reply: data.choices[0].message.content });
     } catch (err) {
-        console.error(err);
-        return res.status(500).json({ error: 'Server error' });
+        console.error('Execution Error:', err);
+        return res.status(500).json({ error: 'Server internal error', details: err.message });
     }
 }
